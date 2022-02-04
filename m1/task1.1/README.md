@@ -1,7 +1,7 @@
 .gitconfig
 
 
-# ну тут думаю понятно
+### ну тут думаю понятно
 
 [user]
         name = Vadym Beznosenko
