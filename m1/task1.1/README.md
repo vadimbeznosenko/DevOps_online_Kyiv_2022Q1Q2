@@ -1,18 +1,24 @@
 .gitconfig
-#####ну тут думаю понятно
+
+
+# ну тут думаю понятно
+
 [user]
         name = Vadym Beznosenko
         email = vadim.beznosenko88@gmail.com
-#####тут тоже 
+
+тут тоже 
 [core]
         editor = nano
         excludesFile = /home/sax/.gitignore
+        
 алиасы для моего комфорта
 [alias]
         c = config
         commitall = "!git add -A; git commit"
 [commit]
         verbose = true
+        
 люблю когда красивенько
 [pretty]
         my = format:%C(yellow)%h %C(dim green)%cd %C(reset)| %s%d [%an]
