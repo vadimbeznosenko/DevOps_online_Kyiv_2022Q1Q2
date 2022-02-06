@@ -187,9 +187,13 @@ end
  
  1991  VBoxManage snapshot t1_sax-OptiPlex-3010_Beznosenko_1643976189460_14875 list
  
+ ### собираем бокс
+ 
+ 1994  vagrant package --vagrantfile ~/Загрузки/Epam/m2/t1 --output my_box.box
+ 
 ###  всё мочим без зазрения совести
  
- 1994  vagrant destroy -f
+ 1997  vagrant destroy -f
  
  
  
