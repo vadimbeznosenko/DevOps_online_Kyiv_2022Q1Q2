@@ -28,7 +28,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 ###     тут всё понятно, проброс портов
     
     vm.vm.network "forwarded_port", guest: 80, host: 8080
+    
     vm.vm.network "forwarded_port", guest: 443, host: 8443
+    
     vm.vm.network "forwarded_port", guest: 22, host: 2201
     
 ###     чтобы с кли вбокса не пробрасывать папку я пробросил её вагарнтом
@@ -57,16 +59,27 @@ end
 ### новый блок для новой машнки
 
  config.vm.define "sax-OptiPlex-3010_Beznosenko2" do |vm2|
+ 
    vm2.vm.box = "ubuntu/focal64"
+   
    vm2.vm.network "public_network", ip: "192.168.31.11"
+   
    vm2.vm.network "forwarded_port", guest: 80, host: 8081
+   
    vm2.vm.network "forwarded_port", guest: 443, host: 8444
+   
    vm2.vm.network "forwarded_port", guest: 22, host: 2202
+   
    vm2.vm.synced_folder "/home/sax/data/", "/home/vagrant/data"
+   
    vm2.vm.provider "virtualbox" do |vb|
+   
      vb.customize ["modifyvm", :id, "--memory", "1024"]
+     
      vb.customize ["modifyvm", :id, "--cpus", "1"]
+     
      vb.customize ["modifyvm", :id, "--vram", "16"]
+     
 end
 
 
@@ -150,6 +163,7 @@ end
 ###  включем их
  
  1982  VBoxManage startvm "t1_sax-OptiPlex-3010_Beznosenko_1643976189460_14875__clone1"
+ 
  1983  VBoxManage startvm "t1_sax-OptiPlex-3010_Beznosenko_1643976189460_14875"
  
 ###  делаем снепшот 
