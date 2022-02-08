@@ -197,3 +197,7 @@ f48426b 2022-02-03 21:18 | Golden_Copy (origin/main, origin/HEAD, main) [Vadym B
 58cde28 2022-02-03 21:00 | Initial commit [Vadym Beznosenko]
 
 2042  git push origin --all 
+
+
+
+ ![alt text](https://github.com/vadimbeznosenko/DevOps_online_Kyiv_2022Q1Q2/blob/master/m1/task1.1/UC-1bd5fa96-2eb9-42b9-a7c0-44befd05a1cc.jpg)
