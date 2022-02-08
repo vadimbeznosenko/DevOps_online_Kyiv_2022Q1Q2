@@ -196,5 +196,5 @@ end
  1997  vagrant destroy -f
  
  
- 
+<img src="/home/sax/Загрузки/DevOps_online_Kyiv_2022Q1Q2/m2/task2.1/UC-eeffe613-cfb0-447a-bd1f-87e25a4a16b5.jpg"> 
  
