@@ -12,6 +12,12 @@
 
 ![alt text](https://github.com/vadimbeznosenko/DevOps_online_Kyiv_2022Q1Q2/blob/master/m3/task3.4/110.png)
 
+
+понастраеваем веб сервер
+
+![alt text](https://github.com/vadimbeznosenko/DevOps_online_Kyiv_2022Q1Q2/blob/master/m3/task3.4/18.png)
+
+
 смотрим открытие веб странички
 
 ![alt text](https://github.com/vadimbeznosenko/DevOps_online_Kyiv_2022Q1Q2/blob/master/m3/task3.4/111.png)
