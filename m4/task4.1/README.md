@@ -103,7 +103,7 @@ sudo chfn -h 0172-666666 vagrant
    
    less /home/vagrant/.bash_history 
  
- 7) -
+ 7) grep "x:[0-1]...:[1000-65533]" /etc/passwd | cut -d: -f1 | finger -s
  
  8) vagrant@ubuntu-focal:~$ ls /home/vagrant/
 
