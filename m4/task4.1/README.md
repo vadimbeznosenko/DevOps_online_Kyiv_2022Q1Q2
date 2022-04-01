@@ -387,9 +387,9 @@ rm labwork2
 
 15) по умолчанию locate нету в линукс потому find
 
-find / -perm 4000
+find / -name "*traceroute*"
 
-find / -name traceroute
+find / -name "*squid*"
 
 16) df -h
 
