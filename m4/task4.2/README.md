@@ -129,6 +129,7 @@ passwd -u testuser
 usermod -U testuser
  
 10)chage -d 0 имя_пользователя
+пустой пароль ставится редактированием файла /etc/shadow
  
 11)vagrant@ubuntu-focal:~$ ll /home/vagrant/
  

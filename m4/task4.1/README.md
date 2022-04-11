@@ -389,7 +389,7 @@ rm labwork2
 
 find / -perm 4000
 
-find / -name traceroute
+find /etc -name "*traceroute*"
 
 16) df -h
 
