@@ -103,7 +103,7 @@ sudo chfn -h 0172-666666 vagrant
    
    less /home/vagrant/.bash_history 
  
- 7) -
+ 7) grep "x:[0-1]...:[1000-65533]" /etc/passwd | cut -d: -f1 | finger -s
  
  8) vagrant@ubuntu-focal:~$ ls /home/vagrant/
 
@@ -387,9 +387,13 @@ rm labwork2
 
 15) по умолчанию locate нету в линукс потому find
 
-find / -perm 4000
+find / -name "*traceroute*"
 
+<<<<<<< HEAD
 find /etc -name "*traceroute*"
+=======
+find / -name "*squid*"
+>>>>>>> ac356c67260b0667e1fefa8a2b3d9a27cf973712
 
 16) df -h
 
