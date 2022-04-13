@@ -33,12 +33,12 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 sudo ip route add 172.17.49.0/24 via 172.16.29.1
 
-sudo ip route add 172.17.0.0/16 via 10.8.88.1
+sudo ip route add 172.17.39.0/24 via 10.8.88.1
 
 5)
 sudo ip route del 172.17.49.0/24 via 172.16.29.1
 
-sudo ip route del 172.17.0.0/16 via 10.8.88.1
+sudo ip route del 172.17.39.0/24 via 10.8.88.1
 
 sudo ip route add 172.17.0.0/16 via 10.8.88.1
 
