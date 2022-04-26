@@ -32,7 +32,9 @@ cat /home/sax/Загрузки/apache_logs.txt | grep error404 | awk '{ print $1
 awk '{ print $4}' /home/sax/Загрузки/apache_logs.txt| sort | uniq -c | sort -nr | head -n 1
 
 
-3) добавляем в cron и вся дедуплекация, которая нужна в задании, вы же понимаете что в высоконагруженых средах никто так не будет поступать, есть для этого borg, bacula, veeam 
+3) добавляем в cron и вся дедуплекация, которая нужна в задании, вы же понимаете что в высоконагруженых средах никто так не будет поступать, есть для этого borg, bacula, veeam
+
+и лучше уже переходить на  systemctl status *timer
 
 #!/bin/bash
 eval 'rsync -azvh /home/vagrant/source /home/vagrant/dest --log-file=/home/vagrant/log'
