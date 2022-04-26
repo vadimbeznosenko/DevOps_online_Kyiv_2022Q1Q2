@@ -389,11 +389,7 @@ rm labwork2
 
 find / -name "*traceroute*"
 
-<<<<<<< HEAD
-find /etc -name "*traceroute*"
-=======
 find / -name "*squid*"
->>>>>>> ac356c67260b0667e1fefa8a2b3d9a27cf973712
 
 16) df -h
 
