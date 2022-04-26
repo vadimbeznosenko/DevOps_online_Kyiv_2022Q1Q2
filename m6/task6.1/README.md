@@ -1,15 +1,21 @@
 1)
 
 #!/bin/bash
+
 select key --all for see all host in network or --target for see see all open port in network
+
 do
     case $key in
+    
     --all)
             eval 'nmap -sL 192.168.0.0/16';;
+            
     --target)
             eval 'nmap -p 0-65535 192.168.0.0/16';;
+            
     *)      
             echo "good bye" 
+            
     esac
 
 
