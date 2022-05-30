@@ -87,6 +87,8 @@
  
  2008  aws ec2 detach-volume --volume-id vol-0190865d6ffb00539
  
+## создаем юзера, по умолчанию юзер создается с минимальными привелегиями
+aws iam create-user --user-name prateek
 ## создаем бакет
  
  
