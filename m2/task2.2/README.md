@@ -89,6 +89,8 @@
  
 ## создаем юзера, по умолчанию юзер создается с минимальными привелегиями
 aws iam create-user --user-name prateek
+## даем ему AdministratorAccess
+aws iam attach-user-policy --user-name prateek --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
 ## создаем бакет
  
  
