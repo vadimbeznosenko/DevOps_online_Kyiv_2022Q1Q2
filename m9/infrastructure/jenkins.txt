@@ -1,5 +1,8 @@
 pipeline {
   agent { label "agent1" }
+  triggers {
+        pollSCM('* * * * *')
+  }
   stages {
       stage("Dell work space") {
       steps {
@@ -31,15 +34,17 @@ pipeline {
     }
              stage ('rm service') {
          steps{
-          sshagent(credentials : ['swarm']) {
+		 catchError{
+          sshagent(credentials : ['vagrant']) {
             sh 'ssh vagrant@192.168.31.11 -o StrictHostKeyChecking=no docker service  rm ip'
         }
     }
          }
+		 }
     
          stage ('Deploy to swarm') {
          steps{
-          sshagent(credentials : ['swarm']) {
+          sshagent(credentials : ['vagrant']) {
             sh 'ssh vagrant@192.168.31.11 -o StrictHostKeyChecking=no docker service create --publish 4100:4100 --name ip --replicas=3 192.168.31.10:5000/api:latest'
         }
     }
