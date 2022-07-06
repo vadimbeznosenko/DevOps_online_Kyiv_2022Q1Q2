@@ -1,0 +1,280 @@
+
+- name: Преконфиг серверов Docker
+
+  hosts: docker_all
+  tasks:
+
+    - name: Утановка Docker
+
+      block:
+
+        - name: Добавляем universe
+          apt_repository:
+            repo: "deb http://us.archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} universe"
+            state: present
+
+        - name: Установка дополнительных пакетов
+
+          apt:
+            name:
+              - apt-transport-https
+              - ca-certificates
+              - gnupg
+              - lsb-release
+              - software-properties-common
+              - wget
+              - libasound2
+              - python3-docker
+              - pip
+            update-cache: yes
+            cache_valid_time: 86400
+
+        - name: Добавление ключа Docker
+          apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            state: present
+
+        - name: Установка стабильного репозитория
+          shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+        - name: Установка Docker
+          apt:
+            name: 
+              - docker-ce
+              - docker-ce-cli
+              - containerd.io
+            update-cache: yes
+
+        - name: Проверка что Docker установлен и перезагружен
+          service:
+            name: docker
+            state: restarted
+            enabled: yes
+      become: yes
+
+    - name: Утановка Docker-compose
+
+      block:
+
+        - name: Получение последней версии Docker-compose
+          uri:
+            url: https://api.github.com/repos/docker/compose/releases/latest
+            body_format: json
+          register: page
+
+        - name: Установка Docker-compose
+          get_url:
+            url: "https://github.com/docker/compose/releases/download/{{ page.json.tag_name }}/docker-compose-Linux-x86_64"
+            dest: /usr/local/bin/docker-compose
+            mode: 0755
+      become: yes
+
+    - name: Добавление пользователя в группу
+
+      block:
+
+        - name: Добавление пользователя в группу Docker
+          ansible.builtin.user:
+            name: vagrant
+            groups: docker
+            append: yes
+
+        - name: Обновление Docker через pip для Swarm
+          pip: 
+            name: docker
+            state: latest
+        - name: Перезагрузка
+          reboot:
+      become: yes
+
+
+- name: Преконфиг Swarm Manager 1
+
+  hosts: swarm_manager1
+  tasks:
+
+  - name: Инициализация Swarm
+    community.docker.docker_swarm:
+      state: present
+      data_path_addr: 192.168.31.10
+      advertise_addr: 192.168.31.10
+    register: token
+
+  - name: Добавления метки для Docker Registry
+    command: docker node update linux1 --label-add registry=true
+  
+  - name: Деплой Docker Registry
+    command: docker service create --name registry --publish 5000:5000 --constraint node.labels.registry==true --mount type=bind,source=/home/vagrant/,destination=/var/lib/registry registry:latest
+  
+  - name: Установка jsondiff через pip для Portainer
+    pip: 
+      name: jsondiff
+      state: present
+
+  - name: Копирование yml Portainer
+    get_url:
+      url: "https://downloads.portainer.io/ce2-13/portainer-agent-stack.yml"
+      dest: /home/vagrant/
+  
+  - name: Установка Portainer
+    docker_stack:
+      state: present
+      name: portainer
+      compose:
+        - /home/vagrant/portainer-agent-stack.yml
+  
+  - name: Сохранение токенов Swarm
+    set_fact:
+      token_manager: "{{ token.swarm_facts.JoinTokens.Manager }}"
+      token_worker: "{{ token.swarm_facts.JoinTokens.Worker }}"
+      cacheable: yes
+
+- name: Преконфиг Swarm Manager 2
+
+  hosts: swarm_manager2
+  tasks:
+
+  - name: Дебаг токена  Manager
+    debug:
+      msg: "{{ hostvars['server1']['ansible_facts']['token_manager'] }}"
+
+  - name: Подключение Swarm Manager 2 к Swarm Manager 1 
+    community.docker.docker_swarm:
+      state: join
+      advertise_addr: 192.168.31.11
+      join_token: "{{ hostvars['server1']['ansible_facts']['token_manager'] }}"
+      remote_addrs: [ '192.168.31.10:2377' ]
+
+  - name: Создание OpenSSH ключа для пользователя vagrant
+    ansible.builtin.user:
+      name: vagrant
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: /home/vagrant/.ssh/id_rsa
+
+  - name: создание файла daemon.json
+    file:
+      path: /etc/docker/daemon.json
+      state: touch
+    become: yes
+
+  - name: Магия для режестри
+    ansible.builtin.copy:
+      content: '{ "insecure-registries" : [ "192.168.31.10:5000" ] }'
+      dest: /etc/docker/daemon.json
+    become: yes
+  
+  - name: Перезагрузка Докера
+    ansible.builtin.service:
+      name: docker
+      state: restarted
+    become: yes
+
+- name: Преконфиг Swarm Worker 
+  hosts: swarm_worker
+  tasks:
+  - name: Дебаг токена  Worker
+    debug:
+      msg: "{{ hostvars['server1']['ansible_facts']['token_worker'] }}"
+
+  - name: Подключение Swarm Worker к Swarm Manager 1 
+    community.docker.docker_swarm:
+      state: join
+      advertise_addr: "{{ ansible_host }}"
+      join_token: "{{ hostvars['server1']['ansible_facts']['token_worker'] }}"
+      remote_addrs: [ '192.168.31.10:2377' ]
+
+- name: Преконфиг Jenkins Servers
+  hosts: jenkins_servers
+  become: yes
+  tasks:
+  
+  - name: Установка Java на серверах Jenkins
+    apt:
+      name: openjdk-11-jre
+      update-cache: yes
+
+- name: Преконфиг Jenkins Controller
+  hosts: jenkins_manager
+  vars:
+    mypassword1: "jenkins"
+  become: yes
+  tasks:
+  
+  - name: Создание группы jenkinsна Jenkin Controller
+    ansible.builtin.group:
+      name: jenkins
+      state: present
+
+  - name: Создание пользователей jenkins на Jenkin Controller
+    ansible.builtin.user:
+      name: jenkins
+      password: "{{ mypassword1 | password_hash('sha512') }}"
+      groups: 
+       - jenkins
+      state: present
+      shell: /bin/bash
+      system: false
+      create_home: true
+      home: /home/jenkins
+      generate_ssh_key: true
+      ssh_key_bits: 2048
+      ssh_key_file: /home/jenkins/.ssh/id_rsa
+
+  - name: Добавление ключа Jenkins
+    apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
+  
+  - name: Добавление стабильного репозитория Jenkins
+    ansible.builtin.apt_repository:
+      repo: deb https://pkg.jenkins.io/debian-stable binary/
+      state: present
+  
+  - name: Установка Jenkins
+    apt:
+      name: jenkins
+      update-cache: yes
+
+- name: Преконфиг Jenkins Agent 
+  hosts: jenkins_agent
+  vars:
+    mypassword: "jenkins"
+  become: yes
+  tasks:
+
+  - name: создание файла daemon.json
+    file:
+      path: /etc/docker/daemon.json
+      state: touch
+
+  - name: Магия для режестри
+    ansible.builtin.copy:
+      content: '{ "insecure-registries" : [ "192.168.31.10:5000" ] }'
+      dest: /etc/docker/daemon.json
+  
+  - name: Перезагрузка Докера
+    ansible.builtin.service:
+      name: docker
+      state: restarted
+  
+  - name: Создание группы jenkins на Jenkin Agent
+    ansible.builtin.group:
+      name: jenkins
+      state: present
+
+  - name: Создание пользователей jenkins на Jenkin Agent
+    ansible.builtin.user:
+      name: jenkins
+      password: "{{ mypassword | password_hash('sha512') }}"
+      groups: 
+       - jenkins
+       - docker
+      state: present
+      shell: /bin/bash
+      system: false
+      create_home: true
+      home: /home/jenkins
+      generate_ssh_key: true
+      ssh_key_bits: 2048
+      ssh_key_file: /home/jenkins/.ssh/id_rsa

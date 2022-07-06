@@ -1,0 +1,53 @@
+pipeline {
+  agent { label "agent1" }
+  stages {
+      stage("Dell work space") {
+      steps {
+        sh 'rm -rf /home/jenkins/workspace/test/test/ 2> /dev/null'
+      }
+    }
+    stage("run") {
+      steps {
+        sh "git clone https://github.com/vadimbeznosenko/test.git"
+      }
+    }
+    stage('Prune Docker data') {
+      steps {
+        sh "docker system prune -a --volumes -f"
+      }
+    }
+	    stage("Build image") {
+      steps {
+        sh """
+          cd /home/jenkins/workspace/test/test/project/
+          docker build -t 192.168.31.10:5000/api:latest .
+        """
+      }
+    }
+        stage("Push image to registry") {
+      steps {
+        sh "docker push 192.168.31.10:5000/api:latest"
+      }
+    }
+             stage ('rm service') {
+         steps{
+          sshagent(credentials : ['swarm']) {
+            sh 'ssh vagrant@192.168.31.11 -o StrictHostKeyChecking=no docker service  rm ip'
+        }
+    }
+         }
+    
+         stage ('Deploy to swarm') {
+         steps{
+          sshagent(credentials : ['swarm']) {
+            sh 'ssh vagrant@192.168.31.11 -o StrictHostKeyChecking=no docker service create --publish 4100:4100 --name ip --replicas=3 192.168.31.10:5000/api:latest'
+        }
+    }
+         }
+         stage("Dell work space in end") {
+      steps {
+        sh 'rm -rf /home/jenkins/workspace/test/test/ 2> /dev/null'
+      }
+    }
+ }
+ }

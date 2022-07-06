@@ -1,0 +1,95 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+# Use the same key for each machine
+  config.ssh.insert_key = false
+
+  config.vm.define "linux1" do |vm1|
+    vm1.vm.box = "bento/ubuntu-20.04"
+    vm1.vm.network "public_network", ip: "192.168.31.10", bridge: "wlo1"
+    vm1.vm.network "forwarded_port", guest: 22, host: 2209
+    vm1.vm.network "forwarded_port", guest: 5000, host: 5000
+    vm1.vm.network "forwarded_port", guest: 2377, host: 2377
+	vm1.vm.network "forwarded_port", guest: 9000, host: 9000
+  vm1.vm.network "forwarded_port", guest: 4100, host: 4100
+    vm1.vm.hostname = "linux1"
+    vm1.vm.provider "virtualbox" do |vb|
+      vb.name = "linux1"
+      vb.customize ["modifyvm", :id, "--memory", "3000"]
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
+  end
+end
+  config.vm.define "linux2" do |vm2|
+    vm2.vm.box = "bento/ubuntu-20.04"
+    vm2.vm.network "public_network", ip: "192.168.31.11", bridge: "wlo1"
+    vm2.vm.network "forwarded_port", guest: 22, host: 2202
+    vm2.vm.network "forwarded_port", guest: 2377, host: 2378
+    vm2.vm.network "forwarded_port", guest: 4100, host: 4001
+    vm2.vm.hostname = "linux2"
+    vm2.vm.provider "virtualbox" do |vb|
+      vb.name = "linux2"
+      vb.customize ["modifyvm", :id, "--memory", "3000"]
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
+  end
+end
+  config.vm.define "linux3" do |vm3|
+    vm3.vm.box = "bento/ubuntu-20.04"
+    vm3.vm.network "public_network", ip: "192.168.31.12", bridge: "wlo1"
+    vm3.vm.network "forwarded_port", guest: 22, host: 2203
+    vm3.vm.network "forwarded_port", guest: 2377, host: 2379
+    vm3.vm.hostname = "linux3"
+    vm3.vm.provider "virtualbox" do |vb|
+      vb.name = "linux3"
+      vb.customize ["modifyvm", :id, "--memory", "2000"]
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+  end
+end
+  config.vm.define "linux4" do |vm4|
+    vm4.vm.box = "bento/ubuntu-20.04"
+    vm4.vm.network "public_network", ip: "192.168.31.13", bridge: "wlo1"
+    vm4.vm.network "forwarded_port", guest: 22, host: 2204
+    vm4.vm.network "forwarded_port", guest: 2377, host: 2380
+    vm4.vm.hostname = "linux4"
+    vm4.vm.provider "virtualbox" do |vb|
+      vb.name = "linux4"
+      vb.customize ["modifyvm", :id, "--memory", "2000"]
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+  end
+end
+  config.vm.define "linux5" do |vm5|
+    vm5.vm.box = "bento/ubuntu-20.04"
+    vm5.vm.network "public_network", ip: "192.168.31.14", bridge: "wlo1"
+    vm5.vm.network "forwarded_port", guest: 22, host: 2206
+	vm5.vm.network "forwarded_port", guest: 2377, host: 2381
+    vm5.vm.hostname = "linux5"
+    vm5.vm.provider "virtualbox" do |vb|
+      vb.name = "linux5"
+      vb.customize ["modifyvm", :id, "--memory", "2000"]
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+  end
+end
+  config.vm.define "linux6" do |vm6|
+    vm6.vm.box = "bento/ubuntu-20.04"
+    vm6.vm.network "public_network", ip: "192.168.31.15", bridge: "wlo1"
+    vm6.vm.network "forwarded_port", guest: 8080, host: 8080
+    vm6.vm.network "forwarded_port", guest: 22, host: 2208
+    vm6.vm.hostname = "linux6"
+    vm6.vm.provider "virtualbox" do |vb|
+      vb.name = "linux6"
+      vb.customize ["modifyvm", :id, "--memory", "4000"]
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
+  end
+end
+config.vm.define "linux7" do |vm7|
+  vm7.vm.box = "bento/ubuntu-20.04"
+  vm7.vm.network "public_network", ip: "192.168.31.16", bridge: "wlo1"
+  vm7.vm.network "forwarded_port", guest: 22, host: 2211
+  vm7.vm.hostname = "linux7"
+  vm7.vm.provider "virtualbox" do |vb|
+    vb.name = "linux7"
+    vb.customize ["modifyvm", :id, "--memory", "4000"]
+    vb.customize ["modifyvm", :id, "--cpus", "2"]
+  vm7.vm.provision "ansible", playbook: "config.yml", inventory_path: "hosts.ini", limit: "all" 
+end
+end
+end

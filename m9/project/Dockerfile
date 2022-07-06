@@ -1,0 +1,26 @@
+FROM node:8.16.2-alpine
+
+RUN adduser --home /home/sax4  --disabled-password sax4
+
+WORKDIR /usr/src/app/
+
+COPY *.json ./
+
+RUN npm i
+
+USER sax4
+
+WORKDIR /usr/src/app/
+
+COPY . .
+
+ADD --chown=sax4 . /usr/src/app/build
+#********
+RUN npm run build
+
+EXPOSE 4100
+
+CMD ["npm", "start"]
+
+
+
