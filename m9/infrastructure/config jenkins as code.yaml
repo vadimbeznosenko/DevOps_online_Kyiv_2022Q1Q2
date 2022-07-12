@@ -1,0 +1,154 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          description: "jenkins_agent"
+          id: "jenkins_agent"
+          password: "{AQAAABAAAAAQuaq4GFqTx1XW6anA2wnE4QxEzghmQ5DiDwuxEGsifSI=}"
+          scope: GLOBAL
+          username: "jenkins"
+      - basicSSHUserPrivateKey:
+          description: "vagrant"
+          id: "vagrant"
+          privateKeySource:
+            directEntry:
+              privateKey: "{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}"
+          scope: GLOBAL
+          username: "vagrant"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  labelAtoms:
+  - name: "JenkinController"
+  - name: "agent1"
+  - name: "built-in"
+  labelString: "JenkinController"
+  markupFormatter: "plainText"
+  mode: EXCLUSIVE
+  myViewsTabBar: "standard"
+  nodes:
+  - permanent:
+      labelString: "agent1"
+      launcher:
+        ssh:
+          credentialsId: "jenkins_agent"
+          host: "192.168.31.16"
+          port: 22
+          sshHostKeyVerificationStrategy:
+            manuallyTrustedKeyVerificationStrategy:
+              requireInitialManualTrust: false
+      name: "agent1"
+      nodeDescription: "agent1"
+      numExecutors: 2
+      remoteFS: "/home/jenkins/"
+      retentionStrategy: "always"
+  numExecutors: 0
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+        name: "admin"
+        properties:
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "timezone"
+        - mailer:
+            emailAddress: "admin@admin.com"
+        - "apiToken"
+        - favoriting:
+            autofavoriteEnabled: true
+        - "favorite"
+  slaveAgentPort: -1
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  sSHD:
+    port: -1
+unclassified:
+  bitbucketEndpointConfiguration:
+    endpoints:
+    - bitbucketCloudEndpoint:
+        enableCache: false
+        manageHooks: false
+        repositoriesCacheDuration: 0
+        teamCacheDuration: 0
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  buildStepOperation:
+    enabled: false
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    hookUrl: "http://192.168.31.15:8080/github-webhook/"
+  gitSCM:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  globalTimeOutConfiguration:
+    operations:
+    - "abortOperation"
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "address not configured yet <nobody@nowhere>"
+    url: "http://192.168.31.15:8080/"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  timestamper:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
