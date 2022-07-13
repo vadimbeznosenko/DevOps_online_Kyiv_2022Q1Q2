@@ -185,7 +185,9 @@ aws iam attach-user-policy --user-name prateek --policy-arn arn:aws:iam::aws:pol
 				
                 <p>Learn how to install & configure an Nginx web server from scratch.</p>
 
-		    
+
+![alt text](https://github.com/vadimbeznosenko/DevOps_online_Kyiv_2022Q1Q2/blob/master/m2/task2.2/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202022-07-13%2011-12-46.png)
+
 ![alt text](https://github.com/vadimbeznosenko/DevOps_online_Kyiv_2022Q1Q2/blob/master/m2/task2.2/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202022-02-09%2015-56-41.png)
 
 ## создали домен и создали Hosted zone в AWS
