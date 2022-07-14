@@ -129,4 +129,7 @@ resource "aws_route53_record" "alb" {
     type    = "CNAME"
     ttl     = "300"
     records = [aws_elb.web.dns_name]
+  depends_on = [
+    aws_elb.web
+  ]
 }
